@@ -39,7 +39,13 @@ class Matrix:
         """
         matrix = []
         row = []
-        for value in new_values:
+        total_values = self.rows * self.columns
+        number_values = len(new_values)
+        if not number_values >= total_values:
+            raise IndexError(
+                "Missing values according to the order of the matrix, must "
+                f"have {total_values}, but has {number_values}")
+        for value in new_values[:total_values]:
             row.append(value)
             if len(row) == self.columns:
                 matrix.append(row.copy())
@@ -66,6 +72,8 @@ class Matrix:
         :return: the sum of the matrices
         :rtype: Matrix
         """
+        if not (self.rows == other.rows and self.columns == other.columns):
+            raise ValueError("Matrices must be of the same order")
         return self.add_and_sub(other)
     
     def __sub__(self, other:'Matrix') -> 'Matrix':
@@ -77,6 +85,8 @@ class Matrix:
         :return: the subtraction of the matrices
         :rtype: Matrix
         """
+        if not (self.rows == other.rows and self.columns == other.columns):
+            raise ValueError("Matrices must be of the same order")
         return self.add_and_sub(other, False)
 
     def __mul__(self, other:'Matrix') -> 'Matrix':
@@ -88,6 +98,10 @@ class Matrix:
         :return: the multiplication of the matrices
         :rtype: Matrix
         """
+        if not self.columns == other.rows:
+            raise ValueError(
+                "The number of columns in the first matrix must be equal to " 
+                "the number of rows in the second matrix")
         result_values = []
         for row in self.values:
             for column in range(other.columns):
@@ -105,7 +119,7 @@ class Matrix:
         :param sum: defines whether the arrays will be summed or subtracted
         :type param: bool
         
-        :return: resulting from the operation
+        :return: result from the operation
         :rtype: Matrix
         """
         result_values = []
