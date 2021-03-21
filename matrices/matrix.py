@@ -72,8 +72,6 @@ class Matrix:
         :return: the sum of the matrices
         :rtype: Matrix
         """
-        if not (self.rows == other.rows and self.columns == other.columns):
-            raise ValueError("Matrices must be of the same order")
         return self.add_and_sub(other)
     
     def __sub__(self, other:'Matrix') -> 'Matrix':
@@ -85,8 +83,6 @@ class Matrix:
         :return: the subtraction of the matrices
         :rtype: Matrix
         """
-        if not (self.rows == other.rows and self.columns == other.columns):
-            raise ValueError("Matrices must be of the same order")
         return self.add_and_sub(other, False)
 
     def __mul__(self, other:'Matrix') -> 'Matrix':
@@ -122,6 +118,8 @@ class Matrix:
         :return: result from the operation
         :rtype: Matrix
         """
+        if not (self.rows == other.rows and self.columns == other.columns):
+            raise ValueError("Matrices must be of the same order")
         result_values = []
         for row_index, row in enumerate(self.values):
             for value_index, value in enumerate(row):
