@@ -5,19 +5,22 @@ class Matrix:
     Matrix objects
     """
 
-    def __init__(self, rows:int, columns:int, values:list):
+    def __init__(self, rows:int, columns:int, values:list, precision:int=2):
         """ Initializes the data
 
         :param rows: number of matrix rows
         :type rows: int
         :param columns: number of matrix columns
-        :type rows: int
+        :type columns: int
         :param values: values that make up the matrix
-        :type rows: list
+        :type values: list
+        :param precision: number of digits after the comma
+        :type precision: int
         """
         self.rows = rows
         self.columns = columns
         self.values = values
+        self.precision = precision
     
     @property
     def values(self) -> list:
@@ -104,7 +107,7 @@ class Matrix:
                 new_value = 0
                 for value_index, value in enumerate(row):
                     new_value += value * other.values[value_index][column]
-                result_values.append(new_value)
+                result_values.append(round(new_value, self.precision))
         return Matrix(self.rows, other.columns, result_values)
                 
     def add_and_sub(self, other:'Matrix', sum:bool=True) -> 'Matrix':
@@ -127,5 +130,5 @@ class Matrix:
                     new_value = value + other.values[row_index][value_index]
                 else:
                     new_value = value - other.values[row_index][value_index]
-                result_values.append(new_value)
+                result_values.append(round(new_value, self.precision))
         return Matrix(self.rows, self.columns, result_values)
